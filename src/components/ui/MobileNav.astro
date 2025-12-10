@@ -1,0 +1,197 @@
+---
+import { Icon } from "astro-icon/components";
+import { navLinks } from "../../data";
+
+const { pathname } = Astro.url;
+const { class: className } = Astro.props;
+---
+
+<button
+  aria-label="Toggle Navigation Menu"
+  id="menu-toggle-btn"
+  class="cursor-pointer relative z-50"
+  transition:persist="menu-btn"
+>
+  <Icon name="menu" class="size-6 md:size-7 lg:hidden" />
+</button>
+
+<nav
+  id="mobile-nav-menu"
+  class:list={[
+    "p-5 w-full md:w-80 bg-sidebar text-sidebar-foreground z-40 close",
+    className,
+  ]}
+  transition:persist="mobile-nav"
+>
+  <ul class="flex flex-col gap-3">
+    {
+      navLinks.map((link) => {
+        const isActive = pathname === link.href;
+        return (
+          <li>
+            <a
+              href={link.href}
+              class:list={["nav-link", isActive ? "active" : undefined]}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .nav-link {
+    font-weight: var(--fw-medium);
+    border-bottom: 2px solid transparent;
+    transition: border-color 300ms ease;
+
+    &.active {
+      border-bottom-color: var(--foreground);
+    }
+  }
+
+  nav {
+    position: fixed;
+    top: var(--header-h);
+    right: 0;
+    height: calc(100dvh - var(--header-h));
+    transition:
+      transform 700ms ease-in-out,
+      opacity 700ms ease-in-out;
+
+    &.close {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+
+    &.open {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("astro:after-swap", initMenu);
+
+  // Fallback for initial load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMenu);
+  } else {
+    setTimeout(initMenu, 100);
+  }
+
+  function initMenu() {
+    const BTN_ID = "menu-toggle-btn";
+    const NAV_ID = "mobile-nav-menu";
+
+    const btn = document.getElementById(BTN_ID);
+    const nav = document.getElementById(NAV_ID);
+
+    if (!btn || !nav) {
+      console.warn("Menu elements not found, retrying...");
+      setTimeout(initMenu, 100);
+      return;
+    }
+
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    const newNav = nav.cloneNode(true);
+    nav.parentNode.replaceChild(newNav, nav);
+
+    // Get fresh references
+    const freshBtn = document.getElementById(BTN_ID);
+    const freshNav = document.getElementById(NAV_ID);
+
+    function toggleMenu(shouldOpen = null) {
+      const isOpen = freshNav.classList.contains("open");
+      const openMenu = shouldOpen !== null ? shouldOpen : !isOpen;
+
+      if (openMenu) {
+        freshNav.classList.add("open");
+        freshNav.classList.remove("close");
+        freshBtn.setAttribute("aria-expanded", "true");
+      } else {
+        freshNav.classList.remove("open");
+        freshNav.classList.add("close");
+        freshBtn.setAttribute("aria-expanded", "false");
+      }
+    }
+
+    // Update active links based on current URL
+    function updateActiveLinks() {
+      const currentPath = window.location.pathname;
+      const links = freshNav.querySelectorAll("a.nav-link");
+
+      links.forEach((link) => {
+        const href = link.getAttribute("href");
+        if (href === currentPath) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+    }
+
+    // Attach event listeners
+    freshBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Close menu when click out side
+    document.addEventListener("click", (e) => {
+      if (
+        !freshNav.contains(e.target) &&
+        !freshBtn.contains(e.target) &&
+        freshNav.classList.contains("open")
+      ) {
+        freshNav.classList.remove("open");
+        freshNav.classList.add("close");
+        freshBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // Close menu on Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && freshNav.classList.contains("open")) {
+        freshNav.classList.remove("open");
+        freshNav.classList.add("close");
+        freshBtn.setAttribute("aria-expanded", "false");
+        freshBtn.focus();
+      }
+    });
+
+    // Close menu with animation when clicking a link
+    freshNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", (e) => {
+        if (!freshNav.classList.contains("open")) return;
+
+        // Check if Astro transition are enabled
+        const hasAstroTransitions = document.querySelector(
+          "[data-astro-transition]"
+        );
+
+        if (hasAstroTransitions) {
+          toggleMenu(false);
+        } else {
+          // Fallback for no transitions
+          e.preventDefault();
+          toggleMenu(false);
+          updateActiveLinks();
+
+          setTimeout(() => {
+            link.click();
+          }, 600);
+        }
+      });
+    });
+
+    // Initial update of active links
+    updateActiveLinks();
+  }
+</script>

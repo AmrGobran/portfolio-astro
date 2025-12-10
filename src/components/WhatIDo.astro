@@ -1,0 +1,128 @@
+---
+import Container from "./ui/Container.astro";
+import Section from "./ui/Section.astro";
+
+const whatIDo = [
+  {
+    title: "Front-end Development",
+    description: "React, Astro, Next.js, Tailwind CSS",
+  },
+  {
+    title: "Reusable UI Architecture",
+    description: "components, animations, clean design systems",
+  },
+  {
+    title: "Full Project Flow",
+    description: "from planning and wireframe to deployment and polish",
+  },
+];
+
+const skills = [
+  { title: "Core", description: "HTML5, CSS3, JavaScript (ESNext)" },
+  { title: "Frameworks", description: "React 19, Next.js, Astor.js" },
+  {
+    title: "Styling & Animations",
+    description: "TailwindCSS v4, Shadcn UI, Framer Motion, GSAP",
+  },
+  { title: "Tools", description: "Git, GitHub, Vite, NPM, VS Code" },
+  { title: "Back-end Basics", description: "Node.js, Express, MongoDB" },
+  {
+    title: "Other",
+    description: "responsive design, accessibility, SEO fundamentals",
+  },
+];
+
+const focuses = [
+  { text: "Clean, logical structure" },
+  { text: "Smooth, intuitive interactions" },
+  { text: "Thoughtful, minimal design" },
+  { text: "Fast, accessible performance" },
+];
+---
+
+<Section>
+  <Container>
+    <div
+      class="space-y-5 divide-y divide-border [&>section:not(:last-child)]:pb-7 md:[&>section:not(:last-child)]:pb-10"
+    >
+      <h2 class="sr-only">What I Do, What I Use, How I Think</h2>
+      <!-- What I Do -->
+      <section class="space-y-3">
+        <h3>What I Do</h3>
+        <p class="font-semibold">
+          I design and build modern, high-performance web experiences.
+        </p>
+        <p>
+          <small>
+            I focus on clean UI, thoughtful UX, and fast, accessible websites
+            that feel smooth and intentional. I enjoy turning ideas into
+            polished interfaces, bringing structure, creativity, and deep
+            attention to detail into everything I build.
+          </small>
+        </p>
+        <ul role="list" class="list-disc ml-5">
+          {
+            whatIDo.map((item) => (
+              <li>
+                <p>
+                  <span class="font-bold">{item.title}</span> —
+                  <small>{item.description}</small>
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- Skills & Tools -->
+      <section class="space-y-3">
+        <h3>Skills & Tools</h3>
+        <ul role="list" class="list-disc ml-5">
+          {
+            skills.map((item) => (
+              <li>
+                <p>
+                  <span class="font-bold">{item.title}</span> —
+                  <small>{item.description}</small>
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- How I Work -->
+      <section class="space-y-3">
+        <h3>How I Work</h3>
+        <p class="">
+          I love building digital experiences that balance <em
+            class="font-semibold">structure, creativity, and intention</em
+          >. To me, good development isn&apos;t just about writing code —
+          it&apos;s about creating interfaces that feel clear, usable, and
+          visually meaningful.
+        </p>
+        <p>
+          <small>
+            I may not be a visual designer, but I care about thoughtful layout,
+            smooth interactions, and high-quality implementation.
+          </small>
+        </p>
+        <p>
+          <small>
+            Whether I&apos;m shaping a layout or polishing a tiny motion detail,
+            I focus on:
+          </small>
+        </p>
+        <ul role="list" class="list-disc ml-5">
+          {
+            focuses.map((item) => (
+              <li>
+                <p class="font-bold">{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </Container>
+</Section>

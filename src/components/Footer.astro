@@ -1,0 +1,73 @@
+---
+import { Icon } from "astro-icon/components";
+import Container from "./ui/Container.astro";
+import { socialLinks } from "../data";
+import Logo from "./ui/Logo.astro";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+  class="py-6 max-lg:pb-8 border-t border-border bg-background text-foreground"
+>
+  <Container class="flex flex-col gap-5">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+      <div>
+        <h2 class="h4">Amr Gobran</h2>
+        <p class="flex items-center gap-2">🇪🇬 Based in Cairo, Egypt</p>
+      </div>
+      <div>
+        <small class="text-muted-foreground">
+          Website UI inspiration <a
+            href="https://dribbble.com/"
+            target="_blank"
+            class="underline"
+            title="dribbble.com">Dribble</a
+          >. Built with <a
+            href="https://astro.build/"
+            target="_blank"
+            class="underline"
+            title="astro.build">Astro.js</a
+          >, <a
+            href="https://www.typescriptlang.org/"
+            target="_blank"
+            class="underline"
+            title="typescriptlang.org">TypeScript</a
+          >, and <a
+            href="https://tailwindcss.com/"
+            target="_blank"
+            class="underline"
+            title="tailwindcss.com">TailwindCSS</a
+          >.
+        </small>
+      </div>
+    </div>
+    <div class="flex items-center justify-between">
+      <small>
+        &COPY; {currentYear}
+        <Logo class="inherit -mr-3 text-inherit" />.<br class="md:hidden" /> All
+        Rights Reserved.
+      </small>
+
+      <!-- Social links -->
+      <ul class="flex items-center gap-4">
+        {
+          socialLinks.map((link) => {
+            const { name, href, target } = link;
+            return (
+              <li>
+                <a href={href} target={target}>
+                  <Icon
+                    name={name}
+                    title={link.title}
+                    class="size-5 lg:size-6 text-muted-foreground hover:text-foreground transition-colors"
+                  />
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </Container>
+</footer>

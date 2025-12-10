@@ -1,0 +1,32 @@
+---
+interface Props {
+  class?: string;
+  type?: "button" | "link";
+  href?: string;
+}
+
+const { class: className, type = "button", href } = Astro.props;
+---
+
+{
+  type === "button" ? (
+    <button
+      class:list={[
+        "inline-flex items-center gap-2 cursor-pointer px-5 py-2.5 rounded-md font-semibold bg-primary text-primary-foreground hover:bg-primary/80 transition-colors",
+        className,
+      ]}
+    >
+      <slot />
+    </button>
+  ) : (
+    <a
+      href={href}
+      class:list={[
+        "inline-flex items-center gap-2 cursor-pointer px-5 py-2.5 rounded-md font-semibold bg-primary text-primary-foreground hover:bg-primary/80 transition-colors",
+        className,
+      ]}
+    >
+      <slot />
+    </a>
+  )
+}

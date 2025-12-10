@@ -1,0 +1,21 @@
+---
+import { Icon } from "astro-icon/components";
+import Container from "./ui/Container.astro";
+import DesktopNav from "./ui/DesktopNav.astro";
+import Logo from "./ui/Logo.astro";
+import MobileNav from "./ui/MobileNav.astro";
+import ToggleThemeWC from "./ui/ToggleThemeWC.astro";
+---
+
+<header class="shadow-lg shadow-muted/50 bg-background text-foreground">
+  <Container
+    class="relative py-4 h-(--header-h) flex items-center justify-between z-50"
+  >
+    <Logo />
+    <div class="flex items-center gap-5">
+      <DesktopNav />
+      <ToggleThemeWC />
+      <MobileNav class="lg:hidden" />
+    </div>
+  </Container>
+</header>

@@ -1,0 +1,39 @@
+---
+import { navLinks } from "../../data";
+
+const { pathname } = Astro.url;
+const { class: className } = Astro.props;
+---
+
+<nav class:list={["hidden lg:block", className]}>
+  <ul class="flex items-center gap-3">
+    {
+      navLinks.map(({ href, label }) => {
+        const isActive = pathname === href;
+        return (
+          <li>
+            <a
+              href={href}
+              class:list={["nav-link", isActive ? "active" : undefined]}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .nav-link {
+    font-weight: var(--fw-medium);
+    border-bottom: 2px solid transparent;
+    transition: border-color 300ms ease;
+
+    &.active {
+      border-bottom-color: var(--foreground);
+    }
+  }
+</style>

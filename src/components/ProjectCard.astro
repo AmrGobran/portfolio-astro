@@ -1,0 +1,72 @@
+---
+import { Image } from "astro:assets";
+import type { Project } from "../data/types";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { id, title, description, techStack, img, links } = project;
+const { src, alt, width, height } = img;
+---
+
+<article
+  class="grid grid-cols-1 sm:grid-cols-2 bg-accent rounded-xl overflow-hidden border border-border"
+>
+  <!-- Project Image -->
+  <a
+    href={links[1].href}
+    target={links[1].target}
+    class="h-full max-w-full aspect-video border-b sm:border-0 sm:border-r border-border"
+  >
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      priority={id === 1}
+      layout="constrained"
+      loading={id !== 1 ? "lazy" : "eager"}
+      class="size-full object-cover object-top"
+    />
+  </a>
+
+  <!-- Project Details -->
+  <div class="p-4 sm:p-5 flex flex-col gap-5">
+    <h2 class="h4">{title}</h2>
+    <small class="text-foreground/80">{description}</small>
+    <ul class="flex-1 flex gap-2 flex-wrap">
+      {
+        techStack.map((item) => (
+          <li>
+            <span class="xs py-0.5 px-2 rounded-full border border-foreground/80 bg-muted">
+              {item}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="flex items-center gap-2">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="shrink-0 flex items-center gap-1.5 underline py-2 px-4 rounded-lg text-accent bg-accent-foreground transition-colors hover:bg-accent-foreground/80"
+              target={link.target}
+            >
+              <Icon
+                name={link.iconName}
+                class=" sm:size-5"
+                title={link.iconTitle}
+              />
+              <span class="xs font-semibold shrink-0">{link.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>

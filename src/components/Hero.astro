@@ -1,0 +1,151 @@
+---
+import { Image } from "astro:assets";
+import Section from "./ui/Section.astro";
+import Button from "./ui/Button.astro";
+import { Icon } from "astro-icon/components";
+import { socialLinks } from "../data";
+import Container from "./ui/Container.astro";
+---
+
+<Section
+  class="relative min-h-[calc(100dvh-var(--header-h))] flex items-center justify-center overflow-hidden border-b border-border"
+>
+  <!-- Background blob -->
+  <div class="absolute inset-0 -z-10">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+  <Container class="space-y-3.5 xs:space-y-5">
+    <div
+      class="relative flex flex-col gap-5 md:gap-[2vw] md:flex-row md:items-center"
+    >
+      <div
+        class="size-30 md:size-40 lg:size-50 shrink-0 rounded-full overflow-hidden"
+      >
+        <Image
+          src="/images/profile-img.jpg"
+          alt="Amr Gobran, front-end developer who built this site."
+          width="821"
+          height="1135"
+          priority
+          layout="constrained"
+          class="size-full object-cover"
+        />
+      </div>
+      <h1>
+        👋🏼 Hello, I&apos;m Amr<br />A web developer
+      </h1>
+    </div>
+    <p>
+      A front-end developer obsessed with clean UI, performance, and meaningful
+      experiences.
+    </p>
+    <p>
+      Whether I&apos;m building dynamic React apps, crafting smooth Astro
+      websites, or shaping e-commerce brands — I combine logic, aesthetics, and
+      curiosity to create work that feels alive.
+    </p>
+    <div class="flex items-center gap-3 *:shrink-0 flex-wrap">
+      <Button type="link" href="mailto:amrgobran@gmail.com">
+        <Icon name="email-at" class="size-5 sm:size-6 shrink-0" aria-hidden />
+        <small>Contact me</small>
+      </Button>
+      <Button type="link" href="/projects">
+        <Icon name="view" class="size-5 sm:size-6 shrink-0" aria-hidden />
+        <small>View Projects</small>
+      </Button>
+    </div>
+    <ul class="flex items-center gap-5">
+      {
+        socialLinks.map((link) => (
+          <li>
+            <a href={link.href} target={link.target}>
+              <Icon
+                name={link.name}
+                class="size-5 md:size-6"
+                title={link.title}
+              />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</Section>
+
+<style>
+  .blob {
+    position: absolute;
+    width: min(600px, 90vw);
+    height: min(600px, 90vw);
+    filter: blur(80px);
+    opacity: 0.5;
+    mix-blend-mode: screen;
+    z-index: -1;
+    will-change: transform, border-radius;
+    transform-origin: center center;
+  }
+
+  .blob-1 {
+    top: 30%;
+    left: 20%;
+    background: radial-gradient(
+      circle at 30% 30%,
+      var(--bolb-1-gradient-1),
+      var(--bolb-1-gradient-2),
+      transparent 90%
+    );
+    animation: blob-morph 6s infinite ease-in-out alternate;
+  }
+
+  .blob-2 {
+    bottom: 30%;
+    right: 20%;
+    background: radial-gradient(
+      circle at 70% 70%,
+      var(--bolb-2-gradient-1),
+      var(--bolb-2-gradient-2),
+      transparent 90%
+    );
+    animation: blob-morph-2 10s infinite ease-in-out alternate;
+    animation-delay: -4s;
+  }
+
+  @keyframes blob-morph {
+    0% {
+      border-radius: 70% 30% 40% 60% / 50% 60% 40% 50%;
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    33% {
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      transform: translate(10%, 5%) scale(1.15) rotate(120deg);
+    }
+    66% {
+      border-radius: 60% 40% 30% 70% / 40% 50% 60% 60%;
+      transform: translate(-5%, 10%) scale(0.9) rotate(240deg);
+    }
+    100% {
+      border-radius: 70% 30% 40% 60% / 50% 60% 40% 50%;
+      transform: translate(0, 0) scale(1) rotate(360deg);
+    }
+  }
+
+  @keyframes blob-morph-2 {
+    0% {
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      transform: translate(0, 0) scale(1.1) rotate(0deg);
+    }
+    33% {
+      border-radius: 60% 40% 30% 70% / 40% 50% 60% 60%;
+      transform: translate(-10%, -5%) scale(1.25) rotate(120deg);
+    }
+    66% {
+      border-radius: 70% 30% 40% 60% / 50% 60% 40% 50%;
+      transform: translate(5%, -10%) scale(0.95) rotate(240deg);
+    }
+    100% {
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      transform: translate(0, 0) scale(1.1) rotate(360deg);
+    }
+  }
+</style>

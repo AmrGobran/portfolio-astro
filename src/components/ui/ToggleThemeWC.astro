@@ -1,0 +1,66 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<theme-toggle class="flex items-center justify-center">
+  <button aria-label="Toggle Theme" class="cursor-pointer">
+    <Icon name="theme" class="size-6" />
+  </button>
+</theme-toggle>
+
+<script>
+  customElements.define(
+    "theme-toggle",
+    class extends HTMLElement {
+      private _currentTheme: "dark" | "light" = "dark";
+      constructor() {
+        super();
+        // Bind methods to preserve 'this' context
+        this._toggleTheme = this._toggleTheme.bind(this);
+      }
+
+      connectedCallback() {
+        const btn = this.querySelector("button");
+
+        if (!btn) return;
+
+        this._initializeTheme();
+        btn.addEventListener("click", this._toggleTheme);
+      }
+
+      private _initializeTheme() {
+        const root = document.documentElement;
+        const savedTheme = localStorage.getItem("theme");
+
+        if (savedTheme === "dark" || savedTheme === "light") {
+          this._applyTheme(savedTheme);
+        } else {
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          const systemTheme = prefersDark ? "dark" : "light";
+          localStorage.setItem("theme", systemTheme);
+        }
+      }
+
+      private _applyTheme(theme: "light" | "dark") {
+        const root = document.documentElement;
+        this._currentTheme = theme;
+
+        root.classList.toggle("dark", theme === "dark");
+
+        const btn = this.querySelector("button");
+        btn?.setAttribute(
+          "aria-label",
+          `Switch to ${theme === "dark" ? "light" : "dark"} theme`
+        );
+      }
+
+      private _toggleTheme() {
+        const newTheme = this._currentTheme === "dark" ? "light" : "dark";
+        this._applyTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+      }
+    }
+  );
+</script>
