@@ -30,13 +30,13 @@ export const socialLinks: SocialLinks = [
 export const projects: Projects = [
   {
     id: 1,
-    title: "iPhone 15 Pro Website Clone",
+    title: "Tosta",
     description:
-      "This project is a clone of the iPhone 15 Pro website, built using modern web technologies to replicate the design and interactivity of the original site. The clone is developed with React.js for the frontend structure, Three.js for 3D animations and models, Tailwind CSS for styling, and GSAP for smooth animations and transitions.",
-    techStack: ["React.js", "TailwindCSS", "Vite"],
+      "Tosta is a modern, responsive coffee shop website built with React and Tailwind CSS. It features smooth scrolling, contact and newsletter forms via FormSubmit, and clean design for showcasing a local brand.",
+    techStack: ["React.js", "React Router Dom", "TailwindCSS", "Vite"],
     img: {
       src: "/images/tosta-sc.png",
-      alt: "iPhone 15 Pro Tosta website",
+      alt: "A Screenshot of Tosta website",
       width: 480,
       height: 1035,
     },
