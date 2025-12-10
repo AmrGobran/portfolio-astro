@@ -5,8 +5,6 @@ Designed to highlight clean structure, subtle motion, and a smooth browsing expe
 
 ![Project Screenshot](/public/images/screenshot.png)
 
----
-
 ## 🚀 Tech Stack
 
 ### Core Technologies
